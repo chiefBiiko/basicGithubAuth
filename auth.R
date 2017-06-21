@@ -1,7 +1,7 @@
 # rack
 
 #' @export
-finit <- function(github.name) {
+init <- function(github.name) {
   stopifnot(isTruthyChar(github.name))
   # desetup io 
   on.exit({

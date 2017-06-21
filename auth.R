@@ -1,7 +1,7 @@
 # rack
 
 #' @export
-init <- function(github.name) {
+auth <- function(github.name) {
   stopifnot(isTruthyChar(github.name))
   # desetup io 
   on.exit({
@@ -25,7 +25,7 @@ init <- function(github.name) {
   # save authorization command as shell script
   cat(auth.cmd, file=script.x)
   # info to user
-  message('Run ', script.x, ' in your shell,\nthen enter your Github password')
+  message('Enter ', script.x, ' in your shell,\nthen your Github password')
   # open up shell ..
   system2(os.shell, wait=FALSE, invisible=FALSE)
   # wait for user to complete
@@ -35,6 +35,7 @@ init <- function(github.name) {
   }
   # check auth.json
   login <- jsonlite::fromJSON('auth.json')$login
+  # exit
   return(login)  # if authentication failed login is NULL
 }
 

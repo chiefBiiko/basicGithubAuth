@@ -2,7 +2,7 @@
 
 #' @export
 auth <- function(github.name) {
-  stopifnot(isTruthyChar(github.name))
+  stopifnot(isTruthyChar(github.name), curl_inst())
   # desetup io 
   on.exit({
     unlink(script.x)
@@ -17,10 +17,10 @@ auth <- function(github.name) {
     script.x <- 'auth.sh'
     os.shell <- 'sh.exe'
   }
-  # authorization command
+  # authentication command
   auth.cmd <- paste('curl', '--user', github.name, 
-                    'https://api.github.com/user', '>', 'auth.json\n',
-                    'echo AUTH_END > auth.log\n',
+                    'https://api.github.com/user', '1>', 'auth.json\n',
+                    'echo AUTH_END 1> auth.log\n',
                     'exit')
   # save authorization command as shell script
   cat(auth.cmd, file=script.x)

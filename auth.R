@@ -1,14 +1,10 @@
-# rack
+# auth
 
 #' @export
-auth <- function(github.name) {
-  stopifnot(isTruthyChar(github.name), curl_inst())
+auth <- function(github.name, password) {
+  stopifnot(isTruthyChar(github.name), isTruthyChar(password), curl_inst())
   # desetup io 
-  on.exit({
-    unlink(script.x)
-    unlink('auth.log')
-    unlink('auth.json')
-  })
+  on.exit(unlink(script.x))
   # shells and scripts
   if (.Platform$OS.type == 'windows') {
     script.x <- 'auth.bat'
@@ -18,25 +14,21 @@ auth <- function(github.name) {
     os.shell <- 'sh.exe'
   }
   # authentication command
-  auth.cmd <- paste('curl', '--user', github.name, 
-                    'https://api.github.com/user', '1>', 'auth.json\n',
-                    'echo AUTH_END 1> auth.log\n',
-                    'exit')
-  # save authorization command as shell script
+  auth.cmd <- paste0('curl https://api.github.com/user ', 
+                     '--user ', github.name, ':', password, '\n',
+                     'exit')
+  # save authentication command as shell script
   cat(auth.cmd, file=script.x)
   # info to user
-  message('Enter ', script.x, ' in your shell,\nthen your Github password')
-  # open up shell ..
-  system2(os.shell, wait=FALSE, invisible=FALSE)
-  # wait for user to complete
-  repeat {
-    Sys.sleep(.5)
-    if (file.exists('auth.log')) break
-  }
-  # check auth.json
-  login <- jsonlite::fromJSON('auth.json')$login
+  message('Authenticating with the Github API via cURL...')
+  # do auth, provide stdin, capture stdout
+  chk <- system2(os.shell, input=script.x, stdout=TRUE)
+  # check response
+  login <- sub('^\\s*"login":\\s"(.*)".*$', '\\1', 
+               chk[grep('.*(?<="login":)', chk, perl=TRUE)], 
+               perl=TRUE)
   # exit
-  return(login)  # if authentication failed login is NULL
+  return(if (length(login) != 0L) login else NULL)
 }
 
 

@@ -1,6 +1,6 @@
 # auth
 
-#' @export
+#' @keywords internal
 auth <- function(github.name, password) {
   stopifnot(isTruthyChar(github.name), isTruthyChar(password), curl_inst())
   # desetup io 

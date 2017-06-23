@@ -1,4 +1,4 @@
-# install cURL
+# install curl
 
 #' @keywords internal
 curl_inst <- function() {

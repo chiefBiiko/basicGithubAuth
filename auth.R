@@ -4,31 +4,38 @@
 auth <- function(github.name, password) {
   stopifnot(isTruthyChar(github.name), isTruthyChar(password), curl_inst())
   # desetup io 
-  on.exit(unlink(script.x))
+  on.exit({
+    unlink(script.x)
+    unlink('netrc.txt')  
+  })
   # shells and scripts
   if (.Platform$OS.type == 'windows') {
-    script.x <- 'auth.bat'
     os.shell <- 'cmd.exe'
+    script.x <- 'auth.bat'
+    auth.cmd <- paste0('curl https://api.github.com/user ', 
+                       '--netrc-file netrc.txt -I', '\n',
+                       'exit')
   } else {
-    script.x <- 'auth.sh'
     os.shell <- 'sh.exe'
+    script.x <- 'auth.sh'
+    auth.cmd <- paste0('#!/usr/bin/env sh\n', 
+                       'curl https://api.github.com/user ', 
+                       '--netrc-file netrc.txt -I', '\n',
+                       'exit')
   }
-  # authentication command
-  auth.cmd <- paste0('curl https://api.github.com/user ', 
-                     '--user ', github.name, ':', password, '\n',
-                     'exit')
   # save authentication command as shell script
   cat(auth.cmd, file=script.x)
+  # password file
+  cat(paste('machine api.github.com login', github.name, 'password', password), 
+      file='netrc.txt')
   # info to user
-  message('Authenticating with the Github API via cURL...')
+  message('Authenticating with the Github API via curl...')
   # do auth, provide stdin, capture stdout
   chk <- system2(os.shell, input=script.x, stdout=TRUE)
   # check response
-  login <- sub('^\\s*"login":\\s"(.*)".*$', '\\1', 
-               chk[grep('.*(?<="login":)', chk, perl=TRUE)], 
-               perl=TRUE)
+  status <- as.integer(gsub('[^[:digit:]]', '', 
+                            hdr <- chk[grep('^\\s*Status:\\s*\\d+.*$', chk)]))
+  msg <- trimws(sub('^.*\\d+\\s*', '', hdr))
   # exit
-  return(if (length(login) != 0L) login else NULL)
+  return(structure(status, message=msg))
 }
-
-

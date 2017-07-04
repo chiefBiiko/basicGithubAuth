@@ -8,8 +8,3 @@ isTruthyChar <- function(x) {
     return(FALSE)
   }
 }
-
-init <- function(prothostport='http://127.0.0.1:65080') {
-  stopifnot(isTruthyChar(prothostport))
-  utils::browseURL(prothostport)
-}

@@ -1,0 +1,12 @@
+Package: basicGithubAuth
+Title: Basic authentication via Github
+Version: 0.0.0.9000
+Authors@R: person("Noah Anabiik", "Schwarz", email = "noah.anabiik.schwarz@gmail.com", role = c("aut", "cre"))
+Description: Authenticates a given username and password with the Github API v3.
+Imports: curl
+Depends:
+    R (>= 3.3.2)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1

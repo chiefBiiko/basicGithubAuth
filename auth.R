@@ -1,41 +1,27 @@
-# auth
+# basic authentication with github
 
-#' @keywords internal
-auth <- function(github.name, password) {
-  stopifnot(isTruthyChar(github.name), isTruthyChar(password), curl_inst())
-  # desetup io 
-  on.exit({
-    unlink(script.x)
-    unlink('netrc.txt')  
-  })
-  # shells and scripts
-  if (.Platform$OS.type == 'windows') {
-    os.shell <- 'cmd.exe'
-    script.x <- 'auth.bat'
-    auth.cmd <- paste0('curl https://api.github.com/user ', 
-                       '--netrc-file netrc.txt -I', '\n',
-                       'exit')
-  } else {
-    os.shell <- 'sh.exe'
-    script.x <- 'auth.sh'
-    auth.cmd <- paste0('#!/usr/bin/env sh\n', 
-                       'curl https://api.github.com/user ', 
-                       '--netrc-file netrc.txt -I', '\n',
-                       'exit')
-  }
-  # save authentication command as shell script
-  cat(auth.cmd, file=script.x)
-  # password file
-  cat(paste('machine api.github.com login', github.name, 'password', password), 
-      file='netrc.txt')
-  # info to user
-  message('Authenticating with the Github API via curl...')
-  # do auth, provide stdin, capture stdout
-  chk <- system2(os.shell, input=script.x, stdout=TRUE)
-  # check response
-  status <- as.integer(gsub('[^[:digit:]]', '', 
-                            hdr <- chk[grep('^\\s*Status:\\s*\\d+.*$', chk)]))
-  msg <- trimws(sub('^.*\\d+\\s*', '', hdr))
-  # exit
+#' Authenticate via Github
+#'
+#' @param user Github user name.
+#' @param password Github password.
+#' @return Integer status code of the authentication response from the Github 
+#' API; \code{200} if authentication succesfull. 
+#'
+#' @export
+authenticate <- function(user, password) {
+  stopifnot(isTruthyChar(user), isTruthyChar(password))
+  # config handle
+  h <- curl::new_handle()
+  curl::handle_setopt(h, URL = 'https://api.github.com/user')
+  curl::handle_setopt(h, HEADER = 1L)
+  curl::handle_setopt(h, NOBODY = 1L)
+  curl::handle_setopt(h, NOPROGRESS = 1L)
+  curl::handle_setopt(h, HTTPAUTH = 1L)
+  curl::handle_setopt(h, USERPWD = paste0(user, ':', password))
+  # perform request
+  res <- curl::curl_fetch_memory('https://api.github.com/user', h)
+  hd <- rawToChar(res$headers)
+  status <- as.integer(sub('^.*Status\\s*:\\s*(\\d+).*$', '\\1', hd, TRUE))
+  msg <- sub('^.*Status\\s*:\\s*\\d+\\s*([[:alpha:]]+)\\s.*$', '\\1', hd, TRUE)
   return(structure(status, message=msg))
 }

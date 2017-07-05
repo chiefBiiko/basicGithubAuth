@@ -6,6 +6,7 @@ Description: Authenticates a given username and password with the Github API v3.
 Imports: curl
 Depends:
     R (>= 3.3.2)
+Suggests: testthat, compiler
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

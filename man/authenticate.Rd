@@ -7,12 +7,12 @@
 authenticate(user, password)
 }
 \arguments{
-\item{user}{Github user name.}
+\item{user}{character. Github user name.}
 
-\item{password}{Github password.}
+\item{password}{character. Github password.}
 }
 \value{
-Integer status code of the authentication response from the Github 
+integer. Status code of the authentication response from the Github 
 API; \code{200} if authentication succesfull.
 }
 \description{

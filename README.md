@@ -12,7 +12,7 @@ devtools::install_github('chiefBiiko/basicGithubAuth')
 
 ## Usage
 
-Provide username and password. Get back `200` if authentication was succesfull.
+Provide username and password. Get back `200` if authentication was successful.
 
 ```r
 basicGithubAuth::authenticate('hadley', 'sesameopen')  # 401

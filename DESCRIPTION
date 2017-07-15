@@ -1,13 +1,11 @@
 Package: basicGithubAuth
-Title: Basic authentication via Github
+Title: Basic authentication with Github
 Version: 0.0.0.9000
 Authors@R: person("Noah Anabiik", "Schwarz", email = "noah.anabiik.schwarz@gmail.com", role = c("aut", "cre"))
 Description: Authenticates a given username and password with the Github API v3.
 Imports: curl
-Depends:
-    R (>= 3.3.2)
-Suggests: testthat, compiler,
-    covr
+Depends: R (>= 3.0.0)
+Suggests: testthat, compiler, covr
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

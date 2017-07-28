@@ -12,10 +12,9 @@ authenticate(user, password)
 \item{password}{character. Github password.}
 }
 \value{
-integer. Status code of the authentication response from the Github 
-API; \code{200} if authentication succesfull.
+integer. Status code of the response: \code{200} if
+authentication succesfull.
 }
 \description{
 Authenticate via Github
 }
-

@@ -12,7 +12,6 @@ authenticate <- function(user, password) {
   stopifnot(is.character(user), length(user) == 1L,
             is.character(password), length(password) == 1L)
   h <- curl::new_handle()
-  curl::handle_setopt(h, HEADER=1L)
   curl::handle_setopt(h, NOBODY=1L)
   curl::handle_setopt(h, HTTPAUTH=1L)
   curl::handle_setopt(h, USERPWD=paste0(user, ':', password))

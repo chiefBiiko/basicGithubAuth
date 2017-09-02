@@ -18,4 +18,6 @@ Provide username and password. Get back `200` if authentication was successful.
 basicGithubAuth::authenticate('hadley', 'sesameopen')  # 401
 ```
 
+## License
+
 MIT

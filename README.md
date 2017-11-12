@@ -20,4 +20,4 @@ basicGithubAuth::authenticate('hadley', 'sesameopen')  # 401
 
 ## License
 
-MIT
+[MIT](./LICENSE)

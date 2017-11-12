@@ -1,13 +1,13 @@
 # basicGithubAuth
 
-[![Build Status](https://travis-ci.org/chiefBiiko/basicGithubAuth.svg?branch=master)](https://travis-ci.org/chiefBiiko/basicGithubAuth) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/chiefBiiko/basicGithubAuth?branch=master&svg=true)](https://ci.appveyor.com/project/chiefBiiko/basicGithubAuth) [![Coverage Status](https://img.shields.io/codecov/c/github/chiefBiiko/basicGithubAuth/master.svg)](https://codecov.io/github/chiefBiiko/basicGithubAuth?branch=master)
+[![Build Status](https://travis-ci.org/chiefbiiko/basicGithubAuth.svg?branch=master)](https://travis-ci.org/chiefbiiko/basicGithubAuth) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/chiefbiiko/basicGithubAuth?branch=master&svg=true)](https://ci.appveyor.com/project/chiefbiiko/basicGithubAuth) [![Coverage Status](https://img.shields.io/codecov/c/github/chiefbiiko/basicGithubAuth/master.svg)](https://codecov.io/github/chiefbiiko/basicGithubAuth?branch=master)
 
 Basic authentication with the Github API.
 
 ## Get it
 
 ```r
-devtools::install_github('chiefBiiko/basicGithubAuth')
+devtools::install_github('chiefbiiko/basicGithubAuth')
 ```
 
 ## Usage
